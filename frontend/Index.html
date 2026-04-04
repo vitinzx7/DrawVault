@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portifolio de Desenhos</title>
+</head>
+<body>
+    <h1>DrawVault</h1>
+    <p>meus Desenhos</p>
+    <div id="menu">
+        <input type="text" id="titulo" placeholder="Titulo do desenho">
+        <input type="date" id="dataCriacao">
+        <input type="text" id="descricao" placeholder="Descrição">
+        <input type="text" id="caminhoImagem" placeholder="Imagem file name">
+        <button id="button">Adicionar</button>
+    </div>
+
+    //----------
+    <div id="galeria"></div>
+    <script>
+        const apiUrl = "http://localhost:5136/api/desenhos";
+        fetch(apiUrl)
+        .then(response=> {
+            return response.json();
+        })
+
+        .then((data) => {
+            var galeria = document.getElementById("galeria");
+            for (var desenho of data) {
+                 galeria.innerHTML += `
+            <div class="card">
+                <img src="http://localhost:5136/imagens/${desenho.caminhoImagem.split('/').pop()}">
+                <h3>${desenho.titulo}</h3>
+                <p>${desenho.descricao}</p>
+            </div>
+        `;
+            }
+        })
+        .catch((error) => {
+            console.error("Erro ao buscar dados", error)
+        });
+        
+    </script>
+    
+</body>
+</html>
