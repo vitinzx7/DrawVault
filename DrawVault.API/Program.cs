@@ -6,7 +6,7 @@ var app = builder.Build();
 app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider("/home/vitin/drawvault/imagens"),
+    FileProvider = new PhysicalFileProvider("/home/vitinzx/Área de trabalho/drawvault/imagens"),
     RequestPath = "/imagens"
 });
 app.MapControllers();

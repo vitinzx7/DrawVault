@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portifolio de Desenhos</title>
+    <style>
+        img {
+            width: 500px;
+        }
+    </style>
 </head>
 <body>
     <h1>DrawVault</h1>
@@ -16,10 +21,16 @@
         <button id="button">Adicionar</button>
     </div>
 
-    //----------
+    
+
+
+
     <div id="galeria"></div>
     <script>
+        //URL base API
         const apiUrl = "http://localhost:5136/api/desenhos";
+
+        // FETCH GET - roda quando a página carrega
         fetch(apiUrl)
         .then(response=> {
             return response.json();
@@ -40,7 +51,54 @@
         .catch((error) => {
             console.error("Erro ao buscar dados", error)
         });
-        
+
+        //metodo click Aciona o POST
+        document.getElementById("button").addEventListener("click", function() {
+           
+            var titulo = document.getElementById("titulo").value;
+            var dataCriacao = document.getElementById("dataCriacao").value;
+            var descricao = document.getElementById("descricao").value;
+            var caminhoImagem = document.getElementById("caminhoImagem").value;
+
+            const postData = {
+                titulo: titulo,
+                dataCriacao: dataCriacao,
+                descricao: descricao,
+                caminhoImagem: caminhoImagem
+               
+           }
+
+           //convertendo dados pra JSON
+            const jsonData = JSON.stringify(postData);
+            
+            //definindo a URL do endpoint
+            const url = 'http://localhost:5136/api/desenhos'
+
+            //configurando as opçoes do FETCH
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            };
+            
+            //Solicitação POST usando a API  fetch
+            fetch(url, options)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('A resposta da rede não foi ok')
+                }
+                return response.json(); //analisa a resposta JSON
+            })
+            .then(data => {
+                console.log('Resposta:', data);
+            })
+            .catch(error => {
+                console.error('Hove um problema com sua opeação fetch', error);
+                
+            });
+        })
     </script>
     
 </body>
