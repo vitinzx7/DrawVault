@@ -18,6 +18,8 @@
         <input type="date" id="dataCriacao">
         <input type="text" id="descricao" placeholder="Descrição">
         <input type="text" id="caminhoImagem" placeholder="Imagem file name">
+        <label for="imagem">imagem:</label>
+        <input type="file" id="imagem" name="imagem" accept="image/png,image/jpeg"/>
         <button id="button">Adicionar</button>
     </div>
 
@@ -53,12 +55,39 @@
         });
 
         //metodo click Aciona o POST
-        document.getElementById("button").addEventListener("click", function() {
-           
+
+        const send = document.querySelector("#send")
+        send.addEventListener("click", async () =>{
+            //valores input
             var titulo = document.getElementById("titulo").value;
             var dataCriacao = document.getElementById("dataCriacao").value;
             var descricao = document.getElementById("descricao").value;
             var caminhoImagem = document.getElementById("caminhoImagem").value;
+
+            //Formdata
+            const formData = new FormData();
+            formData.append("titulo", titulo);
+            formData.append("dataCriacao", dataCriacao)
+            formData.append("descricao", descricao);
+
+            //File input
+            const imagens = document.querySelector("#imagens")
+            formData.append("imagens", imagens.files[0]);
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+    
+           
 
             const postData = {
                 titulo: titulo,
