@@ -43,30 +43,39 @@ public class DesenhosController : ControllerBase
     }
      // Rota POST - adiciona um desenho novo no banco
      [HttpPost]
-     public async Task<ActionResult<Desenho>> CreateDesenho(Desenho novoDesenho)
+     public async Task<ActionResult<Desenho>>CreateDesenho([FromForm] IFormFile formFile ,string titulo, DateTime dataCriacao, string descricao)
     {
         //Abre conexão com o My SQL
         using var connection = new MySqlConnection(_connectionString);
         await connection.OpenAsync();
 
         //INSERT com @ pra proetejer sql injection 
-        var sql ="INSERT INTO desenhos (titulo, data_criacao, descricao, caminho_imagem) VALUES (@titulo, @dataCriacao, @descricao, @caminhoImagem)";
+        var sql ="INSERT INTO desenhos (titulo, data_criacao, descricao,caminho_imagem) VALUES (@titulo, @dataCriacao, @descricao, @caminhoImagem)";
         using var command = new MySqlCommand(sql, connection);
 
         //Cada @ recebe o valor que veio do formulário
-        command.Parameters.AddWithValue("@titulo", novoDesenho.Titulo);
-        command.Parameters.AddWithValue("@dataCriacao", novoDesenho.DataCriacao);
-        command.Parameters.AddWithValue("@descricao", novoDesenho.Descricao);
-        command.Parameters.AddWithValue("@caminhoImagem", novoDesenho.CaminhoImagem);
+        command.Parameters.AddWithValue("@titulo", titulo);
+        command.Parameters.AddWithValue("@dataCriacao", dataCriacao);
+        command.Parameters.AddWithValue("@descricao", descricao);
+        command.Parameters.AddWithValue("caminhoImagem", "");
+
 
         // Executa o INSERT (não retorna linhas, por isso NonQuery)
         await command.ExecuteNonQueryAsync();
 
         // Pega o ID que o MySQL criou automaticamente
-        novoDesenho.Id = (int)command.LastInsertedId;
-
+    var novoDesenho = new Desenho
+            {
+                Titulo = titulo,
+                DataCriacao = dataCriacao,
+                Descricao = descricao,
+                CaminhoImagem = "",
+                Id = (int)command.LastInsertedId
+            };
+            
+        
          // Retorna status 201 (criado com sucesso)
-        return Created("", novoDesenho);
+        return Created("",novoDesenho);
 
     }
     //ROTA DELETE - deleta um desenho pelo ID

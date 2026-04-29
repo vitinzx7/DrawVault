@@ -56,13 +56,13 @@
 
         //metodo click Aciona o POST
 
-        const send = document.querySelector("#send")
+        const send = document.querySelector("#button")
         send.addEventListener("click", async () =>{
             //valores input
             var titulo = document.getElementById("titulo").value;
             var dataCriacao = document.getElementById("dataCriacao").value;
             var descricao = document.getElementById("descricao").value;
-            var caminhoImagem = document.getElementById("caminhoImagem").value;
+            
 
             //Formdata
             const formData = new FormData();
@@ -71,63 +71,16 @@
             formData.append("descricao", descricao);
 
             //File input
-            const imagens = document.querySelector("#imagens")
-            formData.append("imagens", imagens.files[0]);
-
-        });
-
-
-
-
-
-
-
-
-
-
-
-    
-           
-
-            const postData = {
-                titulo: titulo,
-                dataCriacao: dataCriacao,
-                descricao: descricao,
-                caminhoImagem: caminhoImagem
-               
-           }
-
-           //convertendo dados pra JSON
-            const jsonData = JSON.stringify(postData);
+            const imagens = document.querySelector("#imagem")
+            formData.append("imagem", imagens.files[0]);
             
-            //definindo a URL do endpoint
-            const url = 'http://localhost:5136/api/desenhos'
-
-            //configurando as opçoes do FETCH
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: jsonData
-            };
-            
-            //Solicitação POST usando a API  fetch
-            fetch(url, options)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('A resposta da rede não foi ok')
-                }
-                return response.json(); //analisa a resposta JSON
-            })
-            .then(data => {
-                console.log('Resposta:', data);
-            })
-            .catch(error => {
-                console.error('Hove um problema com sua opeação fetch', error);
-                
+            const response = await fetch("http://localhost:5136/api/desenhos", {
+                method: "POST",
+                body:formData,
             });
-        })
+            console.log(await response.json());
+        });
+        
     </script>
     
 </body>
