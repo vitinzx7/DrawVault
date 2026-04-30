@@ -11,7 +11,7 @@ public class DesenhosController : ControllerBase
     private readonly string _connectionString;
     public DesenhosController(IConfiguration configuration)
     {
-        _connectionString = configuration.GetConnectionString("DefaultConnection");
+        _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
 
@@ -43,7 +43,7 @@ public class DesenhosController : ControllerBase
     }
      // Rota POST - adiciona um desenho novo no banco
      [HttpPost]
-     public async Task<ActionResult<Desenho>>CreateDesenho([FromForm] IFormFile formFile ,string titulo, DateTime dataCriacao, string descricao)
+     public async Task<ActionResult<Desenho>>CreateDesenho([FromForm] IFormFile formFile ,[FromForm] string titulo, [FromForm] DateTime dataCriacao, [FromForm] string descricao)
     {
         //Abre conexão com o My SQL
         using var connection = new MySqlConnection(_connectionString);
