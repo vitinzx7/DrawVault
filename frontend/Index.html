@@ -18,9 +18,8 @@
         <input type="date" id="dataCriacao">
         <input type="text" id="descricao" placeholder="Descrição">
         <input type="text" id="caminhoImagem" placeholder="Imagem file name">
-        <label for="imagem">imagem:</label>
         <label for="file">imagem:</label>
-        <input type="file" id="file" name="file" accept="image/png,image/jpeg"/>
+        <input type="file" id="imagens" name="imagens" accept="image/png,image/jpeg"/>
          <button id="button">Adicionar</button>
     </div>
 
@@ -73,8 +72,8 @@
             formData.append("descricao", descricao);
 
             //File input
-            const imagens = document.querySelector("#file")
-            formData.append("formFile", imagens.files[0]);
+            const formdata = document.querySelector("#file")
+            formData.append("imagens", imagens.files[0]);
             
             const response = await fetch("http://localhost:5136/api/desenhos", {
                 method: "POST",

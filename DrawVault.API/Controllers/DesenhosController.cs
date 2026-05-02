@@ -57,7 +57,7 @@ public class DesenhosController : ControllerBase
         command.Parameters.AddWithValue("@titulo", titulo);
         command.Parameters.AddWithValue("@dataCriacao", dataCriacao);
         command.Parameters.AddWithValue("@descricao", descricao);
-        command.Parameters.AddWithValue("caminhoImagem", "");
+        command.Parameters.AddWithValue("caminhoImagem","");
 
 
         // Executa o INSERT (não retorna linhas, por isso NonQuery)
@@ -72,7 +72,7 @@ public class DesenhosController : ControllerBase
                 CaminhoImagem = "",
                 Id = (int)command.LastInsertedId
             };
-            
+            IFormFile file = Request.Form.Files.FirstOrDefault()!;
         
          // Retorna status 201 (criado com sucesso)
         return Created("",novoDesenho);
