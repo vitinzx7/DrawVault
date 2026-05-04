@@ -1,0 +1,6 @@
+@DrawVault.API_HostAddress = http://localhost:5136
+
+GET {{DrawVault.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

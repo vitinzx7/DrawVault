@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portifolio de Desenhos</title>
+    <style>
+        img {
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DrawVault</h1>
+    <p>meus Desenhos</p>
+    <div id="menu">
+        <input type="text" id="titulo" placeholder="Titulo do desenho">
+        <input type="date" id="description">
+        <input type="text" id="descricao" placeholder="Descrição">
+        <input type="text" id="caminhoImagem" placeholder="Imagem file name">
+        <label for="file">imagem:</label>
+        <input type="file" id="imagens" name="imagens" accept="image/png,image/jpeg"/>
+         <button id="button">Adicionar</button>
+    </div>
+
+    
+    
+
+
+
+    <div id="galeria"></div>
+    <script>
+        //URL base API
+        const apiUrl = "http://localhost:5136/api/desenhos";
+
+        // FETCH GET - roda quando a página carrega
+        fetch(apiUrl)
+        .then(response=> {
+            return response.json();
+        })
+
+        .then((data) => {
+            var galeria = document.getElementById("galeria");
+            for (var desenho of data) {
+                 galeria.innerHTML += `
+            <div class="card">
+                <img src="http://localhost:5136/imagens/${desenho.image_path.split('/').pop()}">
+                <h3>${desenho.name}</h3>
+                <p>${desenho.description}</p>
+            </div>
+        `;
+            }
+        })
+        .catch((error) => {
+            console.error("Erro ao buscar dados", error)
+        });
+
+        //metodo click Aciona o POST
+
+        const send = document.querySelector("#button")
+        send.addEventListener("click", async () =>{
+            //valores input
+            var titulo = document.getElementById("titulo").value;
+            var dataCriacao = document.getElementById("dataCriacao").value;
+            var descricao = document.getElementById("descricao").value;
+            
+
+            //Formdata
+            const formData = new FormData();
+            formData.append("titulo", titulo);
+            formData.append("dataCriacao", dataCriacao)
+            formData.append("descricao", descricao);
+
+            //File input
+            const formdata = document.querySelector("#file")
+            formData.append("imagens", imagens.files[0]);
+            
+            const response = await fetch("http://localhost:5136/api/desenhos", {
+                method: "POST",
+                body:formData,
+            });
+            console.log(await response.json());
+        });
+        
+    </script>
+    
+</body>
+</html>
