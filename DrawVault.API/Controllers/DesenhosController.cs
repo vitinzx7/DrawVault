@@ -50,13 +50,28 @@ public class DesenhosController : ControllerBase
         await connection.OpenAsync();
 
         //INSERT com @ pra proetejer sql injection 
-        var sql ="INSERT INTO drawing (name, description, date) VALUES (@name, @description, @date)";
+        var sql ="INSERT INTO drawing (name, description, date, image_path) VALUES (@name, @description, @date, @image_path)";
         using var command = new MySqlCommand(sql, connection);
+         
+         // formPath and Formfile add
+         string imagens = Path.Combine("/home/vitinzx/Área de trabalho/drawvault/imagens");
+         string filePath = "";
+         {
+            if (formFile.Length > 0)
+            {
+                filePath = Path.Combine(imagens, formFile.FileName);
+                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await formFile.CopyToAsync(fileStream);
+                }
+            }
+        }
 
         //Cada @ recebe o valor que veio do formulário
         command.Parameters.AddWithValue("@name", name);
         command.Parameters.AddWithValue("@description", description);
         command.Parameters.AddWithValue("@date", date);
+        command.Parameters.AddWithValue("@image_path", filePath);
 
 
         // Executa o INSERT (não retorna linhas, por isso NonQuery)
@@ -68,11 +83,10 @@ public class DesenhosController : ControllerBase
                 name = name,
                 description = description,
                 date = date,
+                image_path = filePath,
                 id = (int)command.LastInsertedId
             };
-            
-        
-         // Retorna status 201 (criado com sucesso)
+
         return Created("",novoDesenho);
 
     }

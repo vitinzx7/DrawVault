@@ -11,15 +11,17 @@
     </style>
 </head>
 <body>
+
+    <!-- Form to add a new drawing -->
     <h1>DrawVault</h1>
     <p>meus Desenhos</p>
     <div id="menu">
-        <input type="text" id="titulo" placeholder="Titulo do desenho">
-        <input type="date" id="description">
-        <input type="text" id="descricao" placeholder="Descrição">
-        <input type="text" id="caminhoImagem" placeholder="Imagem file name">
+        <input type="text" id="name" placeholder="Titulo do desenho">
+        <input type="text" id="description" placeholder="Descrição">
+        <input type="date" id="date">
         <label for="file">imagem:</label>
         <input type="file" id="imagens" name="imagens" accept="image/png,image/jpeg"/>
+        <input type="text" id="image_path" placeholder="Imagem file name">
          <button id="button">Adicionar</button>
     </div>
 
@@ -44,9 +46,12 @@
             for (var desenho of data) {
                  galeria.innerHTML += `
             <div class="card">
+                <h3>${desenho.id}</h3>
                 <img src="http://localhost:5136/imagens/${desenho.image_path.split('/').pop()}">
                 <h3>${desenho.name}</h3>
                 <p>${desenho.description}</p>
+                <h3>${desenho.date}</h3>
+
             </div>
         `;
             }
@@ -60,20 +65,21 @@
         const send = document.querySelector("#button")
         send.addEventListener("click", async () =>{
             //valores input
-            var titulo = document.getElementById("titulo").value;
-            var dataCriacao = document.getElementById("dataCriacao").value;
-            var descricao = document.getElementById("descricao").value;
+            var name = document.getElementById("name").value;
+            var date = document.getElementById("date").value;
+            var description = document.getElementById("description").value;
             
 
             //Formdata
             const formData = new FormData();
-            formData.append("titulo", titulo);
-            formData.append("dataCriacao", dataCriacao)
-            formData.append("descricao", descricao);
+            formData.append("name", name);
+            formData.append("date", date)
+            formData.append("description", description);
+
 
             //File input
-            const formdata = document.querySelector("#file")
-            formData.append("imagens", imagens.files[0]);
+            const imagens = document.querySelector("#imagens")
+            formData.append("formFile", imagens.files[0]);
             
             const response = await fetch("http://localhost:5136/api/desenhos", {
                 method: "POST",
