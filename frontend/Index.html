@@ -16,12 +16,13 @@
     <h1>DrawVault</h1>
     <p>meus Desenhos</p>
     <div id="menu">
-        <input type="text" id="name" placeholder="Titulo do desenho">
-        <input type="text" id="description" placeholder="Descrição">
+        <input type="text" id="name" placeholder="Name of the Drawing">
+        <input type="text" id="description" placeholder="Descriptions...">
+        <label for="date">Date:</label>
         <input type="date" id="date">
-        <label for="file">imagem:</label>
+        <label for="file">image:</label>
         <input type="file" id="imagens" name="imagens" accept="image/png,image/jpeg"/>
-        <input type="text" id="image_path" placeholder="Imagem file name">
+
          <button id="button">Adicionar</button>
     </div>
 
@@ -32,10 +33,10 @@
 
     <div id="galeria"></div>
     <script>
-        //URL base API
+        //URL API base
         const apiUrl = "http://localhost:5136/api/desenhos";
 
-        // FETCH GET - roda quando a página carrega
+        //FETCH GET - runs when the page loads
         fetch(apiUrl)
         .then(response=> {
             return response.json();
@@ -52,6 +53,9 @@
                 <p>${desenho.description}</p>
                 <h3>${desenho.date}</h3>
 
+                <!-- Button Delete -->
+                <button onclick="deleteimg(${desenho.id})">EXCLUIR</button>
+
             </div>
         `;
             }
@@ -60,7 +64,7 @@
             console.error("Erro ao buscar dados", error)
         });
 
-        //metodo click Aciona o POST
+        //Button triggers post method
 
         const send = document.querySelector("#button")
         send.addEventListener("click", async () =>{
@@ -87,7 +91,15 @@
             });
             console.log(await response.json());
         });
-        
+
+
+        //Delete method by Click
+            function deleteimg(id){
+                deleteimg = fetch(`http://localhost:5136/api/desenhos/${id}`, {
+                method: 'DELETE',
+        })
+        .then(res => {if(res.ok) console.log("deletado")})  
+            }
     </script>
     
 </body>
