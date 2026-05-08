@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portifolio de Desenhos</title>
-    <style>
-        img {
-            width: 500px;
-        }
-    </style>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
 
     <!-- Form to add a new drawing -->
     <h1>DrawVault</h1>
     <p>meus Desenhos</p>
+    <div class="container">
+        <h1 class="heading">Pesquisar Desenho</h1>
+        <input type="text" placeholder="Buscar pelo nome..." id="search-box">
+    </div>
+    <!---
     <div id="menu">
         <input type="text" id="name" placeholder="Name of the Drawing">
         <input type="text" id="description" placeholder="Descriptions...">
@@ -25,13 +26,15 @@
 
          <button id="button">Adicionar</button>
     </div>
-
+-->
     
     
 
 
 
-    <div id="galeria"></div>
+    <div id="galeria">
+        <div class="grid"></div>
+    </div>
     <script>
         //URL API base
         const apiUrl = "http://localhost:5136/api/desenhos";
@@ -41,9 +44,11 @@
         .then(response=> {
             return response.json();
         })
-
+        
         .then((data) => {
-            var galeria = document.getElementById("galeria");
+            
+            var galeria = document.querySelector(".grid");
+            
             for (var desenho of data) {
                  galeria.innerHTML += `
             <div class="card">
@@ -57,6 +62,7 @@
                 <button onclick="deleteimg(${desenho.id})">EXCLUIR</button>
 
             </div>
+
         `;
             }
         })
