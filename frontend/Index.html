@@ -15,7 +15,7 @@
         <h1 class="heading">Pesquisar Desenho</h1>
         <input type="text" placeholder="Buscar pelo nome..." id="search-box">
     </div>
-    <!---
+    
     <div id="menu">
         <input type="text" id="name" placeholder="Name of the Drawing">
         <input type="text" id="description" placeholder="Descriptions...">
@@ -26,87 +26,21 @@
 
          <button id="button">Adicionar</button>
     </div>
--->
-    
-    
-
-
 
     <div id="galeria">
         <div class="grid"></div>
     </div>
-    <script>
-        //URL API base
-        const apiUrl = "http://localhost:5136/api/desenhos";
-
-        //FETCH GET - runs when the page loads
-        fetch(apiUrl)
-        .then(response=> {
-            return response.json();
-        })
-        
-        .then((data) => {
-            
-            var galeria = document.querySelector(".grid");
-            
-            for (var desenho of data) {
-                 galeria.innerHTML += `
-            <div class="card">
-                <h3>${desenho.id}</h3>
-                <img src="http://localhost:5136/imagens/${desenho.image_path.split('/').pop()}">
-                <h3>${desenho.name}</h3>
-                <p>${desenho.description}</p>
-                <h3>${desenho.date}</h3>
-
-                <!-- Button Delete -->
-                <button onclick="deleteimg(${desenho.id})">EXCLUIR</button>
-
-            </div>
-
-        `;
-            }
-        })
-        .catch((error) => {
-            console.error("Erro ao buscar dados", error)
-        });
-
-        //Button triggers post method
-
-        const send = document.querySelector("#button")
-        send.addEventListener("click", async () =>{
-            //valores input
-            var name = document.getElementById("name").value;
-            var date = document.getElementById("date").value;
-            var description = document.getElementById("description").value;
-            
-
-            //Formdata
-            const formData = new FormData();
-            formData.append("name", name);
-            formData.append("date", date)
-            formData.append("description", description);
-
-
-            //File input
-            const imagens = document.querySelector("#imagens")
-            formData.append("formFile", imagens.files[0]);
-            
-            const response = await fetch("http://localhost:5136/api/desenhos", {
-                method: "POST",
-                body:formData,
-            });
-            console.log(await response.json());
-        });
-
-
-        //Delete method by Click
-            function deleteimg(id){
-                deleteimg = fetch(`http://localhost:5136/api/desenhos/${id}`, {
-                method: 'DELETE',
-        })
-        .then(res => {if(res.ok) console.log("deletado")})  
-            }
-    </script>
     
+    <div id="myModal" class="modal">
+        <span class="close cursor" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            
+        </div>
+    </div>
+
+
+
+
+    <script src="script.js"></script>
 </body>
 </html>

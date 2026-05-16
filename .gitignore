@@ -1,4 +1,4 @@
 bin/
 obj/
 imagens/
-appsettings.json/
+DrawVault.API/appsettings.json
