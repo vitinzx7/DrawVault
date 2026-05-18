@@ -1,5 +1,6 @@
         // Base API URL used by the frontend to communicate with the backend.
         const apiUrl = "http://localhost:5136/api/desenhos";
+        
         let imagens = "";
 
         // GET request: runs when the page loads and brings all drawings from the database.
@@ -11,15 +12,15 @@
         .then((data) => {
             
             var galeria = document.querySelector(".grid");
-
+            
             
             for (var desenho of data) {
-                
+                const imageUrl = `http://localhost:5136/imagens/${desenho.image_path.split('/').pop()}`;
                             
                  galeria.innerHTML += `
             <div class="card">
              
-                <img src="http://localhost:5136/imagens/${desenho.image_path.split('/').pop()}">
+                <img src=${imageUrl}>
                 <h3>${desenho.name}</h3>
                 <p>${desenho.description}</p>
                 <h3>${desenho.date}</h3>
@@ -33,6 +34,9 @@
 
         `;
             }  
+            imagens.addEventListener("click", () => {
+                openLightbox(imageUrl);
+            } )
                 // Saves all rendered cards so the search filter can use them later
                 imagens = document.querySelectorAll(".card");
         })
