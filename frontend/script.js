@@ -34,11 +34,20 @@
 
         `;
             }  
-            imagens.addEventListener("click", () => {
-                openLightbox(imageUrl);
-            } )
+
                 // Saves all rendered cards so the search filter can use them later
                 imagens = document.querySelectorAll(".card");
+
+                imgs = document.querySelectorAll(".grid img");
+
+                imgs.forEach((img) => {
+                    img.addEventListener("click", (event) => {
+                        const srcImagemClicada = event.target.src;
+
+                        document.querySelector("#imgGrande").src = srcImagemClicada;
+                        document.querySelector("#myModal").style.display = "block";
+                    })
+                })
         })
         .catch((error) => {
             console.error("Erro ao buscar dados", error)
@@ -106,3 +115,4 @@
                 }
             })
         }
+
