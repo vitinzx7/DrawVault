@@ -1,5 +1,9 @@
 package com.vitinzx.drawvault;
 
-public interface ArtworkRepository {
+import java.util.UUID;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ArtworkRepository extends JpaRepository<Artwork, UUID>{
     
 }
