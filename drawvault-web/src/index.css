@@ -1,0 +1,44 @@
+:root {
+  --page-bg: #fffdf9;
+  --ink: #24211f;
+  --muted: #6c625d;
+  --accent: #a75f73;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-logo: Georgia, "Times New Roman", serif;
+
+  background: var(--page-bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--page-bg);
+  margin: 0;
+  min-width: 320px;
+}
+
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+#root {
+  min-height: 100svh;
+}
