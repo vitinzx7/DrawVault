@@ -1,4 +1,5 @@
-package com.vitinzx.drawvault;
+package com.vitinzx.drawvault.Controller;
+
 
 
 public class DrawVaultController {

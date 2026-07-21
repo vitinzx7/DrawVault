@@ -1,4 +1,4 @@
-package com.vitinzx.drawvault;
+package com.vitinzx.drawvault.dto;
 
 import java.time.Instant;
 import java.util.UUID;

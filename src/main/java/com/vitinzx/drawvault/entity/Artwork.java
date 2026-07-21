@@ -1,15 +1,17 @@
-package com.vitinzx.drawvault;
+package com.vitinzx.drawvault.entity;
 
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 
 @Entity
+@Table(name = "artworks")
 public class Artwork {
     @Id
     @GeneratedValue
