@@ -135,11 +135,26 @@
 
 .art-preview {
   aspect-ratio: 1;
-  background-image: url('./assets/mock-gallery-sheet.png');
-  background-position: var(--art-position);
-  background-size: 200% 200%;
+  background: #ede8df;
   border-radius: 2px;
+  display: block;
+  object-fit: cover;
   width: 100%;
+}
+
+.art-preview--empty {
+  align-items: center;
+  color: var(--muted);
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.gallery-status {
+  color: var(--muted);
+  margin: 0;
+  text-align: center;
 }
 
 .art-tile h3 {
