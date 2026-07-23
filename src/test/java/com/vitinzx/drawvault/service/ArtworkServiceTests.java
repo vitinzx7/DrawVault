@@ -39,4 +39,17 @@ class ArtworkServiceTests {
         assertThat(result.map(ArtworkResponse::name))
                 .contains("Public Detail");
     }
+
+    @Test
+    void shouldReturnEmptyWhenPublicArtworkIsNotFound() {
+        UUID artworkId = UUID.randomUUID();
+
+        when(artworkRepository.findByIdAndVisibleTrue(artworkId))
+                .thenReturn(Optional.empty());
+
+        Optional<ArtworkResponse> result =
+                artworkService.findPublicArtwork(artworkId);
+
+        assertThat(result).isEmpty();
+    }
 }
