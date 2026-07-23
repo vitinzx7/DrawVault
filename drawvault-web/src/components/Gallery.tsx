@@ -38,6 +38,24 @@ export function Gallery() {
     }
   }, [])
 
+  useEffect(() => {
+    if (!selectedArtwork) {
+      return
+    }
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setSelectedArtwork(null)
+      }
+    }
+
+    window.addEventListener('keydown', closeOnEscape)
+
+    return () => {
+      window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [selectedArtwork])
+
   return (
     <section className="section" id="gallery">
       <div className="section-header">
@@ -87,7 +105,14 @@ export function Gallery() {
         </div>
       )}
       {selectedArtwork && (
-        <div className="art-modal">
+        <div
+          className="art-modal"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              setSelectedArtwork(null)
+            }
+          }}
+        >
           <div
             aria-labelledby="art-modal-title"
             aria-modal="true"
