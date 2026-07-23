@@ -1,8 +1,11 @@
 package com.vitinzx.drawvault.controller;
 
 import java.util.List;
+import java.util.UUID;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +25,13 @@ public class DrawVaultController {
     @GetMapping
     public List<ArtworkResponse> listPublicArtworks() {
         return artworkService.listPublicArtworks();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ArtworkResponse> findPublicArtwork(
+            @PathVariable UUID id) {
+        return artworkService.findPublicArtwork(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
