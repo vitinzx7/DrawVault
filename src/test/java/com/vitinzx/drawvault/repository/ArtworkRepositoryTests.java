@@ -3,6 +3,7 @@ package com.vitinzx.drawvault.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,31 @@ class ArtworkRepositoryTests {
         assertThat(result)
                 .extracting(Artwork::getName)
                 .containsExactly("Public Test");
+    }
+
+    @Test
+    void shouldFindVisibleArtworkById() {
+        Artwork publicArtwork = artworkRepository.saveAndFlush(
+                new Artwork("Public Detail", "Visible artwork detail"));
+
+        publicArtwork.setVisible(true);
+        artworkRepository.saveAndFlush(publicArtwork);
+
+        Optional<Artwork> result =
+                artworkRepository.findByIdAndVisibleTrue(publicArtwork.getId());
+
+        assertThat(result.map(Artwork::getName))
+                .contains("Public Detail");
+    }
+
+    @Test
+    void shouldNotFindPrivateArtworkById() {
+        Artwork privateArtwork = artworkRepository.saveAndFlush(
+                new Artwork("Private Detail", "Hidden artwork detail"));
+
+        Optional<Artwork> result =
+                artworkRepository.findByIdAndVisibleTrue(privateArtwork.getId());
+
+        assertThat(result).isEmpty();
     }
 }
