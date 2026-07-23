@@ -133,6 +133,21 @@
   min-width: 0;
 }
 
+.art-tile-button {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: zoom-in;
+  font: inherit;
+  padding: 0;
+  width: 100%;
+}
+
+.art-tile-button:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 4px;
+}
+
 .art-preview {
   aspect-ratio: 1;
   background: #ede8df;
@@ -163,6 +178,54 @@
   font-weight: 600;
   line-height: 1.25;
   margin: 10px 0 0;
+  text-align: center;
+}
+
+.art-modal {
+  background: rgb(20 18 16 / 72%);
+  display: grid;
+  inset: 0;
+  padding: 24px;
+  place-items: center;
+  position: fixed;
+  z-index: 1000;
+}
+
+.art-modal-content {
+  background: #fff;
+  max-height: calc(100vh - 48px);
+  max-width: 100%;
+  padding: 18px;
+  position: relative;
+}
+
+.art-modal-image {
+  display: block;
+  max-height: 72vh;
+  max-width: min(760px, 82vw);
+  object-fit: contain;
+}
+
+.art-modal-close {
+  align-items: center;
+  background: #fff;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  font-size: 24px;
+  height: 38px;
+  justify-content: center;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 38px;
+}
+
+.art-modal-content h2 {
+  color: var(--ink);
+  font-size: 18px;
+  margin: 14px 0 0;
   text-align: center;
 }
 

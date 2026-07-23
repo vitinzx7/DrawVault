@@ -10,6 +10,8 @@ type GalleryStatus = 'loading' | 'success' | 'error'
 export function Gallery() {
   const [artworks, setArtworks] = useState<ArtworkResponse[]>([])
   const [status, setStatus] = useState<GalleryStatus>('loading')
+  const [selectedArtwork, setSelectedArtwork] =
+    useState<ArtworkResponse | null>(null)
 
   useEffect(() => {
     let active = true
@@ -62,20 +64,59 @@ export function Gallery() {
         <div className="gallery-grid">
           {artworks.map((artwork) => (
             <article className="art-tile" key={artwork.id}>
-              {artwork.imageUrl ? (
-                <img
-                  alt={artwork.name}
-                  className="art-preview"
-                  src={artwork.imageUrl}
-                />
-              ) : (
-                <div className="art-preview art-preview--empty">
-                  Image unavailable
-                </div>
-              )}
-              <h3>{artwork.name}</h3>
+              <button
+                className="art-tile-button"
+                onClick={() => setSelectedArtwork(artwork)}
+                type="button"
+              >
+                {artwork.imageUrl ? (
+                  <img
+                    alt={artwork.name}
+                    className="art-preview"
+                    src={artwork.imageUrl}
+                  />
+                ) : (
+                  <div className="art-preview art-preview--empty">
+                    Image unavailable
+                  </div>
+                )}
+                <h3>{artwork.name}</h3>
+              </button>
             </article>
           ))}
+        </div>
+      )}
+      {selectedArtwork && (
+        <div className="art-modal">
+          <div
+            aria-labelledby="art-modal-title"
+            aria-modal="true"
+            className="art-modal-content"
+            role="dialog"
+          >
+            <button
+              aria-label="Close artwork preview"
+              className="art-modal-close"
+              onClick={() => setSelectedArtwork(null)}
+              type="button"
+            >
+              ×
+            </button>
+
+            {selectedArtwork.imageUrl ? (
+              <img
+                alt={selectedArtwork.name}
+                className="art-modal-image"
+                src={selectedArtwork.imageUrl}
+              />
+            ) : (
+              <div className="art-modal-image art-preview--empty">
+                Image unavailable
+              </div>
+            )}
+
+            <h2 id="art-modal-title">{selectedArtwork.name}</h2>
+          </div>
         </div>
       )}
     </section>
