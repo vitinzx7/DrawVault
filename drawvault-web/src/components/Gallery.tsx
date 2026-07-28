@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 
 import {
   listPublicArtworks,
@@ -7,11 +7,15 @@ import {
 
 type GalleryStatus = 'loading' | 'success' | 'error'
 
+const MODAL_CLOSE_DURATION_MS = 160
+const REDUCED_MOTION_CLOSE_DURATION_MS = 80
+
 export function Gallery() {
   const [artworks, setArtworks] = useState<ArtworkResponse[]>([])
   const [status, setStatus] = useState<GalleryStatus>('loading')
   const [selectedArtwork, setSelectedArtwork] =
     useState<ArtworkResponse | null>(null)
+  const [isModalClosing, setIsModalClosing] = useState(false)
 
   useEffect(() => {
     let active = true
@@ -39,13 +43,34 @@ export function Gallery() {
   }, [])
 
   useEffect(() => {
+    if (!isModalClosing) {
+      return
+    }
+
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    const closeDuration = prefersReducedMotion
+      ? REDUCED_MOTION_CLOSE_DURATION_MS
+      : MODAL_CLOSE_DURATION_MS
+    const closeTimer = window.setTimeout(() => {
+      setSelectedArtwork(null)
+      setIsModalClosing(false)
+    }, closeDuration)
+
+    return () => {
+      window.clearTimeout(closeTimer)
+    }
+  }, [isModalClosing])
+
+  useEffect(() => {
     if (!selectedArtwork) {
       return
     }
 
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === 'Escape') {
-        setSelectedArtwork(null)
+        setIsModalClosing(true)
       }
     }
 
@@ -63,9 +88,10 @@ export function Gallery() {
       </div>
 
       {status === 'loading' && (
-        <p className="gallery-status" role="status">
-          Loading artworks...
-        </p>
+        <div className="gallery-loader" role="status">
+          <span aria-hidden="true" className="gallery-loader-orbit" />
+          <span className="visually-hidden">Loading artworks...</span>
+        </div>
       )}
 
       {status === 'error' && (
@@ -80,11 +106,22 @@ export function Gallery() {
 
       {status === 'success' && artworks.length > 0 && (
         <div className="gallery-grid">
-          {artworks.map((artwork) => (
-            <article className="art-tile" key={artwork.id}>
+          {artworks.map((artwork, index) => (
+            <article
+              className="art-tile"
+              key={artwork.id}
+              style={
+                {
+                  '--card-index': Math.min(index, 5),
+                } as CSSProperties
+              }
+            >
               <button
                 className="art-tile-button"
-                onClick={() => setSelectedArtwork(artwork)}
+                onClick={() => {
+                  setSelectedArtwork(artwork)
+                  setIsModalClosing(false)
+                }}
                 type="button"
               >
                 {artwork.imageUrl ? (
@@ -106,10 +143,10 @@ export function Gallery() {
       )}
       {selectedArtwork && (
         <div
-          className="art-modal"
+          className={`art-modal${isModalClosing ? ' art-modal--closing' : ''}`}
           onClick={(event) => {
             if (event.target === event.currentTarget) {
-              setSelectedArtwork(null)
+              setIsModalClosing(true)
             }
           }}
         >
@@ -122,7 +159,7 @@ export function Gallery() {
             <button
               aria-label="Close artwork preview"
               className="art-modal-close"
-              onClick={() => setSelectedArtwork(null)}
+              onClick={() => setIsModalClosing(true)}
               type="button"
             >
               ×

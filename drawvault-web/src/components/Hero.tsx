@@ -4,8 +4,7 @@ export function Hero() {
       <div className="hero-copy-block">
         <h1 className="hero-title">DrawVault</h1>
         <p className="hero-summary">
-          A calm space to store, organize, and present your drawings with
-          control, care, and security.
+          A personal repository of freehand drawings created since 2019.
         </p>
       </div>
     </section>
