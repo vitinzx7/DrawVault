@@ -114,7 +114,7 @@ export function Gallery() {
           }}
         >
           <div
-            aria-labelledby="art-modal-title"
+            aria-label={`Artwork preview: ${selectedArtwork.name}`}
             aria-modal="true"
             className="art-modal-content"
             role="dialog"
@@ -139,8 +139,6 @@ export function Gallery() {
                 Image unavailable
               </div>
             )}
-
-            <h2 id="art-modal-title">{selectedArtwork.name}</h2>
           </div>
         </div>
       )}
