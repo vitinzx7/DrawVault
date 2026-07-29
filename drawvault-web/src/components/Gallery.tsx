@@ -124,17 +124,25 @@ export function Gallery() {
                 }}
                 type="button"
               >
-                {artwork.imageUrl ? (
-                  <img
-                    alt={artwork.name}
-                    className="art-preview"
-                    src={artwork.imageUrl}
-                  />
-                ) : (
-                  <div className="art-preview art-preview--empty">
-                    Image unavailable
-                  </div>
-                )}
+                <div
+                  className={`art-preview-frame${
+                    artwork.imageUrl?.endsWith('/anime-garota.webp')
+                      ? ' art-preview-frame--anime-garota'
+                      : ''
+                  }`}
+                >
+                  {artwork.imageUrl ? (
+                    <img
+                      alt={artwork.name}
+                      className="art-preview"
+                      src={artwork.imageUrl}
+                    />
+                  ) : (
+                    <div className="art-preview art-preview--empty">
+                      Image unavailable
+                    </div>
+                  )}
+                </div>
                 <h3>{artwork.name}</h3>
               </button>
             </article>
