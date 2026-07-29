@@ -84,6 +84,22 @@ export function updateAnalyticsConsent(consent: AnalyticsConsent) {
   }
 }
 
+export function trackArtworkOpen(
+  artworkId: string,
+  artworkName: string,
+) {
+  window.gtag?.('event', 'artwork_open', {
+    artwork_id: artworkId,
+    artwork_name: artworkName,
+  })
+}
+
+export function trackContactClick(contactType: 'email' | 'github') {
+  window.gtag?.('event', 'contact_click', {
+    contact_type: contactType,
+  })
+}
+
 export function initializeGoogleAnalytics() {
   if (window.gtag) {
     return

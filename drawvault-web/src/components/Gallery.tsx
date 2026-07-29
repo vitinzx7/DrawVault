@@ -4,6 +4,7 @@ import {
   listPublicArtworks,
   type ArtworkResponse,
 } from '../api/artworks'
+import { trackArtworkOpen } from '../analytics/googleAnalytics'
 
 type GalleryStatus = 'loading' | 'success' | 'error'
 
@@ -124,6 +125,10 @@ export function Gallery() {
               <button
                 className="art-tile-button"
                 onClick={() => {
+                  trackArtworkOpen(
+                    artwork.id,
+                    getArtworkDisplayName(artwork),
+                  )
                   setSelectedArtwork(artwork)
                   setIsModalClosing(false)
                 }}
