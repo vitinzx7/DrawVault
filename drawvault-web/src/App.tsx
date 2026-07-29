@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router'
 import { SiteHeader } from './components/SiteHeader'
 import { AboutPage } from './pages/AboutPage'
 import { GalleryPage } from './pages/GalleryPage'
