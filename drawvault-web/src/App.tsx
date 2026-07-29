@@ -1,4 +1,5 @@
 import { Route, Routes, useLocation } from 'react-router'
+import { AnalyticsConsent } from './components/AnalyticsConsent'
 import { SiteHeader } from './components/SiteHeader'
 import { AboutPage } from './pages/AboutPage'
 import { GalleryPage } from './pages/GalleryPage'
@@ -21,6 +22,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
         </Routes>
       </main>
+      <AnalyticsConsent />
     </div>
   )
 }

@@ -9,6 +9,11 @@
     />
     <meta name="theme-color" content="#11173f" />
     <title>drawvault-web</title>
+    <script type="module">
+      import { initializeGoogleAnalytics } from '/src/analytics/googleAnalytics.ts'
+
+      initializeGoogleAnalytics()
+    </script>
   </head>
   <body>
     <div id="root"></div>

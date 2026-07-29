@@ -7,8 +7,13 @@ import {
 
 type GalleryStatus = 'loading' | 'success' | 'error'
 
+const ANIME_GIRL_ID = 'f4a4d7d4-bfe7-4af5-9e34-c44c4b742002'
 const MODAL_CLOSE_DURATION_MS = 160
 const REDUCED_MOTION_CLOSE_DURATION_MS = 80
+
+function getArtworkDisplayName(artwork: ArtworkResponse) {
+  return artwork.id === ANIME_GIRL_ID ? 'Anime Girl' : artwork.name
+}
 
 export function Gallery() {
   const [artworks, setArtworks] = useState<ArtworkResponse[]>([])
@@ -133,7 +138,7 @@ export function Gallery() {
                 >
                   {artwork.imageUrl ? (
                     <img
-                      alt={artwork.name}
+                      alt={getArtworkDisplayName(artwork)}
                       className="art-preview"
                       src={artwork.imageUrl}
                     />
@@ -143,7 +148,7 @@ export function Gallery() {
                     </div>
                   )}
                 </div>
-                <h3>{artwork.name}</h3>
+                <h3>{getArtworkDisplayName(artwork)}</h3>
               </button>
             </article>
           ))}
@@ -159,7 +164,7 @@ export function Gallery() {
           }}
         >
           <div
-            aria-label={`Artwork preview: ${selectedArtwork.name}`}
+            aria-label={`Artwork preview: ${getArtworkDisplayName(selectedArtwork)}`}
             aria-modal="true"
             className="art-modal-content"
             role="dialog"
@@ -175,7 +180,7 @@ export function Gallery() {
 
             {selectedArtwork.imageUrl ? (
               <img
-                alt={selectedArtwork.name}
+                alt={getArtworkDisplayName(selectedArtwork)}
                 className="art-modal-image"
                 src={selectedArtwork.imageUrl}
               />
