@@ -90,8 +90,8 @@ export function initializeGoogleAnalytics() {
   }
 
   window.dataLayer = window.dataLayer ?? []
-  window.gtag = (...args: unknown[]) => {
-    window.dataLayer?.push(args)
+  window.gtag = function () {
+    window.dataLayer?.push(arguments)
   }
 
   window.gtag('consent', 'default', deniedConsent)
